@@ -11,16 +11,18 @@
 *.userprefs
 
 # Build results
-[Dd]ebug/
-[Dd]ebugPublic/
-[Rr]elease/
-[Rr]eleases/
-x64/
-x86/
-bld/
-[Bb]in/
-[Oo]bj/
-[Ll]og/
+criggo/[Dd]ebug/
+criggo/[Dd]ebugPublic/
+criggo/[Rr]elease/
+criggo/[Rr]eleases/
+criggo/x64/
+criggo/x86/
+criggo/bld/
+criggo/[Bb]in/
+criggo/[Oo]bj/
+criggo/[Ll]og/
+
+packages/
 
 # Visual Studio 2015 cache/options directory
 .vs/
