@@ -1,0 +1,8 @@
+D:\Projects\criggo\criggo\bin\Debug\criggo.exe.config
+D:\Projects\criggo\criggo\bin\Debug\criggo.exe
+D:\Projects\criggo\criggo\bin\Debug\criggo.pdb
+D:\Projects\criggo\criggo\bin\Debug\Newtonsoft.Json.dll
+D:\Projects\criggo\criggo\bin\Debug\Newtonsoft.Json.xml
+D:\Projects\criggo\criggo\obj\Debug\criggo.csprojResolveAssemblyReference.cache
+D:\Projects\criggo\criggo\obj\Debug\criggo.exe
+D:\Projects\criggo\criggo\obj\Debug\criggo.pdb
