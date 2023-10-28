@@ -14,6 +14,8 @@ namespace criggo
     {
         static void Main(string[] args)
         {
+            var version = "0.1.0";
+
             Console.Write("Server address: ");
             var addr = Console.ReadLine();
             var entryAddr = addr;
@@ -31,6 +33,15 @@ namespace criggo
             if (res.status == "alive")
             {
                 Console.WriteLine("Server status is alive, proceeding.");
+                if (res.ver != version)
+                {
+                    Console.WriteLine("Client version is " + version + ", server version is " + res.ver + ". Press any key to exit.");
+                    Console.ReadKey();
+                    Environment.Exit(1);
+                } else
+                {
+                    Console.WriteLine("Client and server versions matching.");
+                }
             } else
             {
                 Console.WriteLine("Server status is " + res.status + ", press any key to exit.");
@@ -51,33 +62,55 @@ namespace criggo
             resJson = entryReader.ReadToEnd();
 
             gameStartResponse gsRes = JsonConvert.DeserializeObject<gameStartResponse>(resJson);
-            
-            if (gsRes.error != null)
+
+            while (true)
             {
-                Console.WriteLine("Game Start reponse was " + resJson + ", press any key to exit.");
-                Console.ReadKey();
-                Environment.Exit(2);
-            } else
-            {
-                Console.WriteLine("Game Start response was valid!");
-            }
+                if (gsRes.error != null)
+                {
+                    Console.WriteLine("Game Start reponse was " + resJson + ", press any key to exit.");
+                    Console.ReadKey();
+                    Environment.Exit(2);
+                }
+                else
+                {
+                    Console.WriteLine("Game Start response was valid!");
+                }
 
-            Thread.Sleep(2000);
+                Thread.Sleep(2000);
 
-            Console.Clear();
+                Console.Clear();
 
-            foreach (string line in gsRes.ttp)
-            {
-                Console.WriteLine(line);
-            }
+                foreach (string line in gsRes.ttp)
+                {
+                    Console.WriteLine(line);
+                }
 
-            Console.WriteLine("");
+                Console.WriteLine("");
 
-            if (gsRes.halt)
-            {
-                Console.WriteLine("Game Start returned halt, press any key to exit.");
-                Console.ReadKey();
-                Environment.Exit(0);
+                if (gsRes.halt)
+                {
+                    Console.WriteLine("Game Start returned halt, press any key to exit.");
+                    Console.ReadKey();
+                    Environment.Exit(0);
+                }
+
+                if (gsRes.keyAnswer)
+                {
+                    var key = Console.ReadKey();
+                    var updateAddr = addr + "/updat/?key=" + key;
+                    request = (HttpWebRequest)WebRequest.Create(updateAddr);
+                    response = (HttpWebResponse)request.GetResponse();
+                    resStream = response.GetResponseStream();
+
+                    entryReader = new StreamReader(resStream, Encoding.UTF8);
+
+                    resJson = entryReader.ReadToEnd();
+
+                    gsRes = JsonConvert.DeserializeObject<gameStartResponse>(resJson);
+                } else
+                {
+                    break;
+                }
             }
 
             Console.WriteLine("EOP");
@@ -88,6 +121,7 @@ namespace criggo
     class entryResponse
     {
         public string status { get; set; }
+        public string ver { get; set; }
     }
 
     class gameStartResponse
